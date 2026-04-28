@@ -1,0 +1,23 @@
+# Entornos virtuales
+env/
+venv/
+.venv/
+
+# Caché de Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Variables de entorno
+.env
+
+# Archivos descargados y generados (Para no saturar el repositorio)
+pdfs_dof/
+Summaries/
+*.mp3
+*.wav
+
+# IDEs
+.vscode/
+.idea/
