@@ -7,85 +7,125 @@ document.addEventListener("DOMContentLoaded", () => {
     // Referencia al contenedor de resultados
     const resultsContainer = document.getElementById("results-container");
 
+    // URL base del backend FastAPI
+    const API_BASE_URL = "http://127.0.0.1:8000/api";
+
+    // Función auxiliar para mostrar un mensaje de error
+    const showError = (message) => {
+        resultsContainer.innerHTML = `
+            <div class="status-message" style="color: #dc2626;">
+                <span>❌ Error: ${message}</span>
+            </div>
+        `;
+    };
+
     // Lógica Botón 1: Descargar archivos DOF
-    btnDescargar.addEventListener("click", () => {
+    btnDescargar.addEventListener("click", async () => {
         resultsContainer.innerHTML = `
             <div class="status-message">
                 <div class="spinner"></div>
                 <span>Estado: Descargando PDFs usando Selenium...</span>
             </div>
-            <p style="color: var(--text-muted); margin-top: 1rem;">Navegando a la página del DOF, buscando la edición matutina y vespertina...</p>
+            <p style="color: var(--text-muted); margin-top: 1rem;">Navegando a la página del DOF, buscando las ediciones del día. Esto puede tomar varios segundos...</p>
         `;
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/descargar`);
+            const data = await response.json();
+            
+            if (response.ok) {
+                resultsContainer.innerHTML = `
+                    <div class="status-message" style="color: #16a34a;">
+                        <span>✅ ¡Descarga completada! Los archivos PDF se encuentran listos.</span>
+                    </div>
+                `;
+            } else {
+                showError(data.detail || "Hubo un error en el servidor al descargar.");
+            }
+        } catch (error) {
+            showError("No se pudo conectar con el servidor FastAPI. Verifica que uvicorn esté corriendo.");
+        }
     });
 
     // Lógica Botón 2: Realizar análisis
-    btnAnalisis.addEventListener("click", () => {
-        // Simulamos un tiempo de carga antes de mostrar el análisis
+    btnAnalisis.addEventListener("click", async () => {
         resultsContainer.innerHTML = `
             <div class="status-message">
                 <div class="spinner"></div>
                 <span>Estado: Analizando documentos con Gemini IA...</span>
             </div>
+            <p style="color: var(--text-muted); margin-top: 1rem;">La Inteligencia Artificial está leyendo los documentos y generando el guion estructurado...</p>
         `;
 
-        setTimeout(() => {
-            const loremText = `¡Hola, qué tal! Este es el reporte financiero y regulatorio del Diario Oficial de la Federación para el sector manufacturero.
+        try {
+            const response = await fetch(`${API_BASE_URL}/analizar`);
+            const data = await response.json();
 
-**El Dólar:** 
-El Banco de México ha publicado el tipo de cambio FIX del dólar de los Estados Unidos de América en $18.50 MXN para solventar obligaciones pagaderas en la República Mexicana.
-
-**Comercio Exterior:** 
-La Secretaría de Economía ha actualizado las cuotas compensatorias para la importación de productos de acero, lo cual podría incrementar en un 5% los costos logísticos si tu cadena de suministro depende de estas importaciones.
-
-**Materia Fiscal:** 
-El SAT emitió una resolución de la Miscelánea Fiscal que ajusta los tiempos de declaración del IEPS aplicable a combustibles industriales. Impacto: La tesorería deberá adelantar el flujo de caja 5 días hábiles.
-
-Fuera de esto, la edición de hoy no presenta nuevas regulaciones críticas. Recuerden, una gestión proactiva es su mejor ventaja competitiva. Soy su analista, ¡hasta pronto!`;
-
-            resultsContainer.innerHTML = `
-                <div class="analysis-content">
-                    <h2 class="analysis-title">📄 Resumen del Análisis (Gemini AI)</h2>
-                    <div class="analysis-text">${loremText.replace(/\n/g, '<br>')}</div>
-                </div>
-            `;
-        }, 1500); // Simulamos 1.5 segundos de procesamiento
+            if (response.ok) {
+                resultsContainer.innerHTML = `
+                    <div class="analysis-content">
+                        <h2 class="analysis-title">📄 Resumen del Análisis (Gemini AI)</h2>
+                        <div class="analysis-text">${data.data.replace(/\n/g, '<br>')}</div>
+                    </div>
+                `;
+            } else {
+                showError(data.detail || "Hubo un error en el servidor al analizar.");
+            }
+        } catch (error) {
+            showError("No se pudo conectar con el servidor FastAPI.");
+        }
     });
 
     // Lógica Botón 3: Generar audio
-    btnAudio.addEventListener("click", () => {
-        // Solo inyectar el audio si ya hay un análisis en pantalla, de lo contrario mostrar aviso
+    btnAudio.addEventListener("click", async () => {
         const hasAnalysis = resultsContainer.querySelector('.analysis-content');
         
         if (!hasAnalysis) {
-            resultsContainer.innerHTML = `
-                <div class="status-message" style="color: #dc2626;">
-                    <span>⚠️ Primero debes realizar el análisis para poder generar el audio.</span>
-                </div>
-            `;
+            showError("Primero debes realizar el análisis para poder generar el audio.");
             return;
         }
 
-        // Si ya hay análisis, agregamos la sección de audio en la parte inferior
+        // Agregamos el indicador de carga para el audio
         const audioSection = document.createElement('div');
         audioSection.className = 'audio-section';
         audioSection.innerHTML = `
-            <p class="status-message" style="color: var(--text-main); font-size: 1rem;">
-                <span class="icon">🎙️</span> Generando podcast...
-            </p>
-            <audio controls>
-                <!-- Usamos un audio de muestra simulado -->
-                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-                Tu navegador no soporta el elemento de audio.
-            </audio>
-            <a href="#" class="download-link">Descargar MP3</a>
+            <div class="status-message">
+                <div class="spinner"></div>
+                <span>Estado: Sintetizando voz con Microsoft Edge TTS...</span>
+            </div>
         `;
-
         resultsContainer.appendChild(audioSection);
-        
-        // Simular el cambio de estado de "Generando podcast..." a "Podcast Listo"
-        setTimeout(() => {
-            const statusText = audioSection.querySelector('.status-message span:last-child');
-            if(statusText) statusText.innerText = "¡Podcast generado con éxito!";
-        }, 2000);
+
+        try {
+            // El endpoint devuelve un archivo directamente (FileResponse)
+            const response = await fetch(`${API_BASE_URL}/audio`);
+            
+            if (!response.ok) {
+                const errData = await response.json();
+                audioSection.innerHTML = `
+                    <span style="color: #dc2626;">❌ Error al generar audio: ${errData.detail}</span>
+                `;
+                return;
+            }
+
+            // Convertimos la respuesta en un blob binario para reproducirlo en el navegador
+            const audioBlob = await response.blob();
+            const audioUrl = URL.createObjectURL(audioBlob);
+
+            audioSection.innerHTML = `
+                <p class="status-message" style="color: #16a34a; font-size: 1rem;">
+                    <span class="icon">✅</span> ¡Podcast generado con éxito!
+                </p>
+                <audio controls>
+                    <source src="${audioUrl}" type="audio/mpeg">
+                    Tu navegador no soporta el elemento de audio.
+                </audio>
+                <a href="${audioUrl}" download="podcast_dof.mp3" class="download-link">Descargar MP3</a>
+            `;
+        } catch (error) {
+            audioSection.innerHTML = `
+                <span style="color: #dc2626;">❌ No se pudo conectar con el servidor para descargar el audio.</span>
+            `;
+        }
     });
 });
