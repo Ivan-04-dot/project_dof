@@ -28,6 +28,15 @@ async def extraer_dof():
         print(f"Directorio de descargas creado en: {download_dir}")
     else:
         print(f"Utilizando directorio de descargas: {download_dir}")
+        # Limpiar PDFs anteriores para evitar duplicidad y evitar que Gemini lea datos pasados
+        archivos_antiguos = [os.path.join(download_dir, f) for f in os.listdir(download_dir) if f.endswith('.pdf')]
+        if archivos_antiguos:
+            print(f"Limpiando {len(archivos_antiguos)} archivo(s) PDF antiguo(s)...")
+            for archivo in archivos_antiguos:
+                try:
+                    os.remove(archivo)
+                except Exception as e:
+                    print(f"Error al borrar {archivo}: {e}")
 
     # 2. Configuración de ChromeOptions
     chrome_options = Options()
