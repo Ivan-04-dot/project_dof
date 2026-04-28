@@ -70,9 +70,10 @@ async def api_audio():
 # ==============================================================================
 # RUTAS DEL FRONTEND
 # ==============================================================================
-# Servimos las carpetas css y js de manera estática
+# Servimos las carpetas css, js e iconos de manera estática
 app.mount("/css", StaticFiles(directory="css"), name="css")
 app.mount("/js", StaticFiles(directory="js"), name="js")
+app.mount("/iconos", StaticFiles(directory="iconos"), name="iconos")
 
 # La ruta principal ("/") devolverá nuestro index.html
 @app.get("/")

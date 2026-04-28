@@ -73,7 +73,12 @@ Materia Fiscal: Estímulos fiscales, cambios en IEPS (combustibles), resolucione
 Normativas y Energía: Nuevas Normas Oficiales Mexicanas (NOM) que afecten maquinaria o procesos, o acuerdos de la CRE/CFE sobre tarifas industriales.
 
 Estructura del Guion (Formato para Audio):
-Redacta la respuesta como un guion fluido, diseñado para ser leído por una voz robótica (TTS), sin viñetas con símbolos especiales, sin tablas y usando puntuación clara para forzar pausas (comas y puntos).
+Redacta la respuesta como un guion fluido, diseñado para ser leído por una voz robótica (TTS).
+PROHIBICIONES ESTRICTAS:
+- NO escribas etiquetas como "**LOCUTOR:**", "Voz robótica:", etc.
+- NO incluyas acotaciones de sonido o música como "(Música de intro)", "(se desvanece)", etc.
+- NO uses viñetas con símbolos especiales, NO uses asteriscos (**), ni tablas. 
+- Escribe SOLO las palabras exactas que la voz debe pronunciar. Usa puntuación clara para forzar pausas (comas y puntos).
 
 Intro: Un saludo enérgico, corporativo y directo. Ejemplo: "Hola, qué tal. Este es el reporte financiero y regulatorio del Diario Oficial de la Federación para el sector manufacturero..."
 

@@ -39,6 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span>✅ ¡Descarga completada! Los archivos PDF se encuentran listos.</span>
                     </div>
                 `;
+                // Habilitamos el botón de análisis
+                btnAnalisis.removeAttribute('disabled');
             } else {
                 showError(data.detail || "Hubo un error en el servidor al descargar.");
             }
@@ -68,6 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div class="analysis-text">${data.data.replace(/\n/g, '<br>')}</div>
                     </div>
                 `;
+                // Habilitamos el botón de generar audio
+                btnAudio.removeAttribute('disabled');
             } else {
                 showError(data.detail || "Hubo un error en el servidor al analizar.");
             }

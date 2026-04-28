@@ -51,17 +51,14 @@ body {
 
 .panel-header {
     margin-bottom: 3rem;
+    text-align: center;
 }
 
-.panel-header h1 {
-    font-size: 1.8rem;
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-}
-
-.panel-header p {
-    color: var(--text-muted);
-    font-size: 0.9rem;
+.panel-logo {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: var(--shadow-soft);
 }
 
 .button-group {
@@ -71,33 +68,34 @@ body {
     flex-grow: 1;
 }
 
-/* Estilo de los Botones */
+/* Estilo de los Botones de Imagen */
 .btn-action {
-    background-color: #f9fafb;
-    border: 1px solid var(--border-color);
-    color: var(--text-main);
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
+    background: transparent;
+    border: none;
+    padding: 0;
     cursor: pointer;
-    text-align: left;
-    display: flex;
-    align-items: center;
     transition: var(--transition);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-.btn-action .icon {
-    margin-right: 12px;
-    font-size: 1.2rem;
+.btn-img {
+    width: 100%;
+    max-width: 180px; /* Tamaño máximo para hacerlos más pequeños y elegantes */
+    margin: 0 auto;   /* Centra la imagen dentro del botón */
+    height: auto;
+    display: block;
 }
 
-.btn-action:hover {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-hover);
+.btn-action:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-action:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(100%);
 }
 
 .panel-footer {
@@ -215,4 +213,66 @@ audio {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================
+   DISEÑO RESPONSIVO (Tablets y Celulares)
+   ========================================= */
+@media screen and (max-width: 768px) {
+    body {
+        overflow-y: auto; /* Permite scroll vertical general en móviles */
+    }
+
+    .layout-container {
+        flex-direction: column; /* Apila las columnas una sobre otra */
+        height: auto;
+    }
+
+    .control-panel {
+        width: 100%;
+        max-width: 100%;
+        min-width: unset;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 1.5rem;
+        z-index: 10;
+        position: sticky;
+        top: 0;
+    }
+
+    .panel-logo {
+        max-width: 150px; /* Logo más pequeño en móvil */
+        margin: 0 auto;
+        display: block;
+    }
+
+    .panel-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .button-group {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .btn-action {
+        flex: 1;
+        min-width: 120px; /* Mantiene un tamaño mínimo decente */
+    }
+
+    .btn-img {
+        max-width: 120px; /* Botones aún más pequeños en celular */
+    }
+
+    .results-viewer {
+        padding: 1rem;
+        height: auto;
+        min-height: 60vh;
+    }
+
+    .paper-card {
+        padding: 1.5rem;
+    }
 }
