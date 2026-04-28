@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel DOF - Automatización</title>
+    <!-- Fuente moderna (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Enlace a estilos -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="layout-container">
+        <!-- Columna Izquierda: Panel de Controles -->
+        <aside class="control-panel">
+            <div class="panel-header">
+                <h1>Panel DOF</h1>
+                <p>Automatización de Podcast</p>
+            </div>
+            
+            <nav class="button-group">
+                <button id="btn-descargar" class="btn-action">
+                    <span class="icon">📥</span> Descargar archivos DOF
+                </button>
+                <button id="btn-analisis" class="btn-action">
+                    <span class="icon">🧠</span> Realizar análisis
+                </button>
+                <button id="btn-audio" class="btn-action">
+                    <span class="icon">🎙️</span> Generar audio
+                </button>
+            </nav>
+            
+            <div class="panel-footer">
+                <small>Fase 4 - Interfaz de Usuario</small>
+            </div>
+        </aside>
+
+        <!-- Columna Derecha: Visor de Resultados -->
+        <main class="results-viewer">
+            <div class="paper-card" id="results-container">
+                <!-- Estado Inicial -->
+                <div class="initial-state">
+                    <h2>Bienvenido al Panel de Control</h2>
+                    <p>Selecciona una acción en el panel izquierdo para comenzar el proceso.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Enlace al script JS -->
+    <script src="js/app.js"></script>
+</body>
+</html>
